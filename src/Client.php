@@ -55,7 +55,7 @@ class Client
             throw new InvalidTargetException();
         }
 
-        if (!$source) {
+        if (! $source) {
             $source = config('laravel-libretranslate.default_source');
         }
 
@@ -75,7 +75,7 @@ class Client
         $responses = Promise\Utils::unwrap($requests);
 
         $translations = [];
-        foreach ($responses as $key =>  $response) {
+        foreach ($responses as $key => $response) {
             $translatedText = json_decode($response->getBody(), true)['translatedText'];
             $translations[$key] = new Translation($key, $translatedText, $target);
         }

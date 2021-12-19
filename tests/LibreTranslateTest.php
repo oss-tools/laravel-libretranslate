@@ -6,7 +6,6 @@ use OSSTools\LibreTranslate\Client;
 use OSSTools\LibreTranslate\Test\TestCase as OrchestraTestCase;
 use OSSTools\LibreTranslate\Translation\LanguageCodes;
 
-
 class LibreTranslateTest extends OrchestraTestCase
 {
     public function test_can_instantiate_libretranslate_client()
