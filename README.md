@@ -46,7 +46,7 @@ class ExampleController extends Controller
         // Returns a single record of \OSSTools\LibreTranslate\Translation\Translation
         $result = $client->translate(['This is some text', 'A test'], LanguageCodes::SPANISH)->get('A test');
         
-        // Returns "A test"
+        // Returns "Una prueba"
         $result = $client->translate(['This is some text', 'A test'], LanguageCodes::SPANISH)->last()->getText();
     }
 }
