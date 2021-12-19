@@ -1,27 +1,32 @@
 {
-  "name": "oss-tools/:package_name",
-  "description": ":package_description",
+  "name": "oss-tools/laravel-libretranslate",
+  "description": "Package to introduce a Client for translating text using LibreTranslate in Laravel.",
   "keywords": [
     "oss-tools",
-    ":package_name"
+    "laravel-libretranslate"
   ],
-  "homepage": "https://github.com/oss-tools/:package_name",
+  "homepage": "https://github.com/oss-tools/laravel-libretraslate",
   "license": "MIT",
   "require": {
-    "php": "^7.1"
+    "php": "^7.1.3|^8.0",
+    "illuminate/database": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+    "illuminate/support": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+    "nesbot/carbon": "^2.0",
+    "guzzlehttp/guzzle": "^7.0",
+    "ext-json": "*"
   },
   "require-dev": {
     "orchestra/testbench": "^6.0",
-    "phpunit/phpunit": "^6.0"
+    "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0"
   },
   "autoload": {
     "psr-4": {
-      "OSSTools\\Package\\": "src"
+      "OSSTools\\LibreTranslate\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "OSSTools\\Package\\Test\\": "tests"
+      "OSSTools\\LibreTranslate\\Test\\": "tests"
     }
   },
   "scripts": {
@@ -33,10 +38,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "OSSTools\\Package\\PackageServiceProvider"
+        "LibreTranslateServiceProvider"
       ],
       "aliases": {
-        "Package": "OSSTools\\Package\\PackageFacade"
+        "Package": "OSSTools\\LibreTranslate\\PackageFacade"
       }
     }
   }
