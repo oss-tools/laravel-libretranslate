@@ -12,16 +12,22 @@ class Translation
     /**
      * @var string|null
      */
-    protected $value;
+    protected $text;
 
     /**
-     * @param $key
-     * @param $value
+     * @var string|null
      */
-    public function __construct($key, $value)
+    protected $locale;
+
+    /**
+     * @param string $key
+     * @param string $text
+     */
+    public function __construct(string $key, string $text, string $locale)
     {
         $this->key = $key;
-        $this->value = $value;
+        $this->text = $text;
+        $this->locale = $locale;
     }
 
     /**
@@ -35,8 +41,16 @@ class Translation
     /**
      * @return string|null
      */
-    public function getValue(): ?string
+    public function getText(): ?string
     {
-        return $this->value;
+        return $this->text;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
     }
 }

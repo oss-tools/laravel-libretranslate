@@ -36,6 +36,22 @@ class Translations
     }
 
     /**
+     * @return Translation|null
+     */
+    public function first(): ?Translation
+    {
+        return array_values($this->translations)[0] ?? null;
+    }
+
+    /**
+     * @return Translation|null
+     */
+    public function last(): ?Translation
+    {
+        return last($this->translations) ?: null;
+    }
+
+    /**
      * @return $this
      */
     public function flush(): self

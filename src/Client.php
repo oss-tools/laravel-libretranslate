@@ -28,7 +28,7 @@ class Client
     public function __construct()
     {
         $this->client = new GuzzleClient([
-            'base_uri' => config('laravel-libretranslate.libretranslate_host'),
+            'base_uri' => config('laravel-libretranslate.host'),
         ]);
     }
 
@@ -36,14 +36,14 @@ class Client
      * @param $keys
      * @param $target
      * @param null $source
-     * @return $this
+     * @return Translations
      * @throws InvalidPayloadException
      * @throws InvalidTargetException
      * @throws \Throwable
      */
-    public function translate($keys, $target, $source = null): self
+    public function translate($keys, $target, $source = null): Translations
     {
-        if (!is_string($keys)) {
+        if (is_string($keys)) {
             $keys = [$keys];
         }
 
@@ -55,10 +55,14 @@ class Client
             throw new InvalidTargetException();
         }
 
+        if (!$source) {
+            $source = config('laravel-libretranslate.default_source');
+        }
+
         $requests = [];
 
         foreach ($keys as $key) {
-            $requests[$key] = $this->client->postAsync('translate?apiKey=' . config('laravel-lbretranslate.laravel-lbretranslate_api_key'), [
+            $requests[$key] = $this->client->postAsync('/translate?apiKey=' . config('laravel-libretranslate.api_key'), [
                 'form_params' => [
                     'q' => $key,
                     'source' => $source,
@@ -72,13 +76,11 @@ class Client
 
         $translations = [];
         foreach ($responses as $key =>  $response) {
-            $translatedText = json_decode($response['value']->getBody(), true)['translatedText'];
-            $translations[] = new Translation($key, $translatedText);
+            $translatedText = json_decode($response->getBody(), true)['translatedText'];
+            $translations[$key] = new Translation($key, $translatedText, $target);
         }
 
-        $this->translations = new Translations($translations);
-
-        return $this;
+        return new Translations($translations);
     }
 
     /**
