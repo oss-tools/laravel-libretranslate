@@ -47,11 +47,11 @@ class Client
             $keys = [$keys];
         }
 
-        if (!is_array($keys)) {
+        if (! is_array($keys)) {
             throw new InvalidPayloadException();
         }
 
-        if (!in_array(strtolower($target), static::getSupportedTargets(), true)) {
+        if (! in_array(strtolower($target), static::getSupportedTargets(), true)) {
             throw new InvalidTargetException();
         }
 
