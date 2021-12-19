@@ -1,0 +1,43 @@
+{
+  "name": "oss-tools/:package_name",
+  "description": ":package_description",
+  "keywords": [
+    "oss-tools",
+    ":package_name"
+  ],
+  "homepage": "https://github.com/oss-tools/:package_name",
+  "license": "MIT",
+  "require": {
+    "php": "^7.1"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^6.0",
+    "phpunit/phpunit": "^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "OSSTools\\Package\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "OSSTools\\Package\\Test\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "OSSTools\\Package\\PackageServiceProvider"
+      ],
+      "aliases": {
+        "Package": "OSSTools\\Package\\PackageFacade"
+      }
+    }
+  }
+}
