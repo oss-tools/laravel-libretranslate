@@ -2,8 +2,8 @@
 
 namespace OSSTools\LibreTranslate\Test;
 
-use PHPUnit\Framework\TestCase;
 use OSSTools\LibreTranslate\Client;
+use PHPUnit\Framework\TestCase;
 
 class LibreTranslateTest extends TestCase
 {

@@ -43,15 +43,15 @@ class Client
      */
     public function translate($keys, $target, $source = null): self
     {
-        if (!is_string($keys)) {
+        if (! is_string($keys)) {
             $keys = [$keys];
         }
 
-        if (!is_array($keys)) {
+        if (! is_array($keys)) {
             throw new InvalidPayloadException();
         }
 
-        if (!in_array(strtolower($target), static::getSupportedTargets(), true)) {
+        if (! in_array(strtolower($target), static::getSupportedTargets(), true)) {
             throw new InvalidTargetException();
         }
 
@@ -71,7 +71,7 @@ class Client
         $responses = Promise\Utils::unwrap($requests);
 
         $translations = [];
-        foreach ($responses as $key =>  $response) {
+        foreach ($responses as $key => $response) {
             $translatedText = json_decode($response['value']->getBody(), true)['translatedText'];
             $translations[] = new Translation($key, $translatedText);
         }
