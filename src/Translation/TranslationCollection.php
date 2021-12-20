@@ -2,10 +2,10 @@
 
 namespace OSSTools\LibreTranslate\Translation;
 
-class Translations
+class TranslationCollection
 {
     /**
-     * @var Translation[]
+     * @var TranslationItem[]
      */
     protected $translations;
 
@@ -15,7 +15,7 @@ class Translations
     }
 
     /**
-     * @return array|Translation[]
+     * @return array|TranslationItem[]
      */
     public function getAll(): array
     {
@@ -24,11 +24,11 @@ class Translations
 
     /**
      * @param string $key
-     * @return Translation|null
+     * @return TranslationItem|null
      */
-    public function get(string $key): ?Translation
+    public function get(string $key): ?TranslationItem
     {
-        $translations = array_filter($this->translations, static function (Translation $translation) use ($key) {
+        $translations = array_filter($this->translations, static function (TranslationItem $translation) use ($key) {
             return $translation->getKey() === $key;
         });
 
@@ -36,28 +36,28 @@ class Translations
     }
 
     /**
-     * @return Translation|null
+     * @return TranslationItem|null
      */
-    public function first(): ?Translation
+    public function first(): ?TranslationItem
     {
         return array_values($this->translations)[0] ?? null;
     }
 
     /**
-     * @return Translation|null
+     * @return TranslationItem|null
      */
-    public function last(): ?Translation
+    public function last(): ?TranslationItem
     {
         return last($this->translations) ?: null;
     }
 
     /**
-     * @return $this
+     * @return array
      */
-    public function flush(): self
+    public function toArray(): array
     {
-        $this->translations = [];
-
-        return $this;
+        return array_map(static function (TranslationItem $translation) {
+            return $translation->toArray();
+        }, $this->translations);
     }
 }

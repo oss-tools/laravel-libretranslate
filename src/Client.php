@@ -7,8 +7,10 @@ use GuzzleHttp\Promise;
 use OSSTools\LibreTranslate\Exceptions\InvalidPayloadException;
 use OSSTools\LibreTranslate\Exceptions\InvalidTargetException;
 use OSSTools\LibreTranslate\Translation\LanguageCodes;
-use OSSTools\LibreTranslate\Translation\Translation;
-use OSSTools\LibreTranslate\Translation\Translations;
+use OSSTools\LibreTranslate\Translation\TranslationDetectionCollection;
+use OSSTools\LibreTranslate\Translation\TranslationDetectionItem;
+use OSSTools\LibreTranslate\Translation\TranslationItem;
+use OSSTools\LibreTranslate\Translation\TranslationCollection;
 
 class Client
 {
@@ -18,7 +20,7 @@ class Client
     protected $client;
 
     /**
-     * @var Translations
+     * @var TranslationCollection
      */
     protected $translations;
 
@@ -36,12 +38,12 @@ class Client
      * @param $keys
      * @param $target
      * @param null $source
-     * @return Translations
+     * @return TranslationCollection
      * @throws InvalidPayloadException
      * @throws InvalidTargetException
      * @throws \Throwable
      */
-    public function translate($keys, $target, $source = null): Translations
+    public function translate($keys, $target, $source = null): TranslationCollection
     {
         if (is_string($keys)) {
             $keys = [$keys];
@@ -77,10 +79,32 @@ class Client
         $translations = [];
         foreach ($responses as $key => $response) {
             $translatedText = json_decode($response->getBody(), true)['translatedText'];
-            $translations[$key] = new Translation($key, $translatedText, $target);
+            $translations[$key] = new TranslationItem($key, $translatedText, $target);
         }
 
-        return new Translations($translations);
+        return new TranslationCollection($translations);
+    }
+
+    /**
+     * @param string $key
+     * @return TranslationDetectionCollection|null
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function detect(string $key): ?TranslationDetectionCollection
+    {
+        $response = $this->client->post('/detect', [
+            'form_params' => [
+                'q' => $key,
+            ],
+        ])->getBody();
+
+        $results = json_decode($response, true);
+
+        $detectionArray = array_map(static function (array $detection) {
+            return new TranslationDetectionItem($detection['confidence'], $detection['language']);
+        }, $results);
+
+        return new TranslationDetectionCollection($detectionArray);
     }
 
     /**

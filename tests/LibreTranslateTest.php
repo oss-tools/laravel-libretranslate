@@ -5,6 +5,7 @@ namespace OSSTools\LibreTranslate\Test;
 use OSSTools\LibreTranslate\Client;
 use OSSTools\LibreTranslate\Test\TestCase as OrchestraTestCase;
 use OSSTools\LibreTranslate\Translation\LanguageCodes;
+use OSSTools\LibreTranslate\Translation\TranslationDetectionItem;
 
 class LibreTranslateTest extends OrchestraTestCase
 {
@@ -48,5 +49,36 @@ class LibreTranslateTest extends OrchestraTestCase
         $this->assertSame($translation2->getLocale(), LanguageCodes::SPANISH);
         $this->assertNotEmpty($translation2->getText());
         $this->assertNotSame($translation2->getText(), $translationPayload[1]);
+    }
+
+    public function test_can_convert_translations_to_an_array()
+    {
+        $instance = new Client();
+
+        $translationPayload = ['This is some text', 'A test'];
+
+        $translation = $instance->translate($translationPayload, LanguageCodes::SPANISH, LanguageCodes::ENGLISH)
+            ->first();
+
+        $this->assertIsArray($translation->toArray());
+        $this->assertNotEmpty($translation->toArray()['text']);
+        $this->assertSame($translation->toArray()['key'], $translationPayload[0]);
+        $this->assertNotSame($translation->toArray()['text'], $translationPayload[0]);
+    }
+
+    public function test_can_detect_languages()
+    {
+        $instance = new Client();
+
+        $enPayload = 'Some text';
+        $esPayload = 'Una prueba';
+
+        $detection1 = $instance->detect($enPayload)->first();
+        $this->assertInstanceOf(TranslationDetectionItem::class, $detection1);
+        $this->assertSame($detection1->getLanguage(), LanguageCodes::ENGLISH);
+
+        $detection2 = $instance->detect($esPayload)->first();
+        $this->assertInstanceOf(TranslationDetectionItem::class, $detection2);
+        $this->assertSame($detection2->getLanguage(), LanguageCodes::SPANISH);
     }
 }

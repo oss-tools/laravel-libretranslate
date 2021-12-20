@@ -2,7 +2,7 @@
 
 namespace OSSTools\LibreTranslate\Translation;
 
-class Translation
+class TranslationItem
 {
     /**
      * @var string|null
@@ -22,6 +22,7 @@ class Translation
     /**
      * @param string $key
      * @param string $text
+     * @param string $locale
      */
     public function __construct(string $key, string $text, string $locale)
     {
@@ -52,5 +53,17 @@ class Translation
     public function getLocale(): string
     {
         return $this->locale;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'key' => $this->key,
+            'text' => $this->text,
+            'locale' => $this->locale,
+        ];
     }
 }
