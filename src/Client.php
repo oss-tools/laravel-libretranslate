@@ -7,10 +7,10 @@ use GuzzleHttp\Promise;
 use OSSTools\LibreTranslate\Exceptions\InvalidPayloadException;
 use OSSTools\LibreTranslate\Exceptions\InvalidTargetException;
 use OSSTools\LibreTranslate\Translation\LanguageCodes;
+use OSSTools\LibreTranslate\Translation\TranslationCollection;
 use OSSTools\LibreTranslate\Translation\TranslationDetectionCollection;
 use OSSTools\LibreTranslate\Translation\TranslationDetectionItem;
 use OSSTools\LibreTranslate\Translation\TranslationItem;
-use OSSTools\LibreTranslate\Translation\TranslationCollection;
 
 class Client
 {

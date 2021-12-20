@@ -5,7 +5,7 @@ namespace OSSTools\LibreTranslate\Translation;
 class TranslationDetectionItem
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $confidence;
 
