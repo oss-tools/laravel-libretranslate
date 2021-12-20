@@ -12,7 +12,7 @@ This package adds a client to translate text in Laravel using LibreTranslate.
 
 ## What is LibreTranslate?
 
-[LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) is a free and open source translation library
+[LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) is a free and open source translation library.
 
 ## Installation
 
