@@ -5,7 +5,7 @@
  */
 
 return [
-    'host' => env('LIBRETRANSLATE_HOST', 'https://translate.api.skitzen.com'),
+    'host' => env('LIBRETRANSLATE_HOST', 'https://translate.argosopentech.com'),
     'api_key' => env('LIBRETRANSLATE_API_KEY'),
     'default_source' => env('LIBRETRANSLATE_DEFAULT_SOURCE', \OSSTools\LibreTranslate\Translation\LanguageCodes::ENGLISH),
 ];

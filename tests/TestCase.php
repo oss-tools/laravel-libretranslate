@@ -23,7 +23,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        config(['laravel-libretranslate.host' => 'https://translate.api.skitzen.com']);
+        config(['laravel-libretranslate.host' => 'https://translate.argosopentech.com']);
         config(['laravel-libretranslate.api_key' => null]);
         config(['laravel-libretranslate.default_source' => LanguageCodes::ENGLISH]);
     }

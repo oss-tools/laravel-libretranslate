@@ -30,7 +30,7 @@ LIBRETRANSLATE_HOST=https://mylibretranslateserver.com
 LIBRETRANSLATE_API_KEY=your-api-key
 LIBRETRANSLATE_DEFAULT_SOURCE=en
 ```
-**Note:** The default value for `LIBRETRANSLATE_HOST` is set to [https://translate.api.skitzen.com](https://translate.api.skitzen.com) however, we recommend setting up your own server or using a host that is suitable for your needs for production.
+**Note:** The default value for `LIBRETRANSLATE_HOST` is set to [https://translate.argosopentech.com](https://translate.argosopentech.com) however, we recommend setting up your own server or using a host that is suitable for your needs for production.
 ## Usage
 
 ``` php
