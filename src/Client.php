@@ -25,12 +25,30 @@ class Client
     protected $translations;
 
     /**
+     * @var string
+     */
+    protected $host;
+
+    /**
+     * @var string
+     */
+    protected $apiKey;
+
+    /**
+     * @var string
+     */
+    protected $source;
+
+    /**
      * Create a new Package Instance.
      */
-    public function __construct()
+    public function __construct(string $host = null, string $apiKey = null, string $source = null)
     {
+        $this->host = $host ?: config('laravel-libretranslate.host');
+        $this->apiKey = $apiKey ?: config('laravel-libretranslate.api_key');
+        $this->source = $source ?: config('laravel-libretranslate.default_source');
         $this->client = new GuzzleClient([
-            'base_uri' => config('laravel-libretranslate.host'),
+            'base_uri' => $this->host,
         ]);
     }
 
@@ -58,13 +76,13 @@ class Client
         }
 
         if (! $source) {
-            $source = config('laravel-libretranslate.default_source');
+            $source = $this->source;
         }
 
         $requests = [];
 
         foreach ($keys as $key) {
-            $requests[$key] = $this->client->postAsync('/translate?apiKey=' . config('laravel-libretranslate.api_key'), [
+            $requests[$key] = $this->client->postAsync('/translate?apiKey=' . $this->apiKey, [
                 'form_params' => [
                     'q' => $key,
                     'source' => $source,
@@ -92,7 +110,7 @@ class Client
      */
     public function detect(string $key): ?TranslationDetectionCollection
     {
-        $response = $this->client->post('/detect', [
+        $response = $this->client->post('/detect?apiKey=' . $this->apiKey, [
             'form_params' => [
                 'q' => $key,
             ],
