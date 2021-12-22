@@ -38,11 +38,8 @@
   "extra": {
     "laravel": {
       "providers": [
-        "LibreTranslateServiceProvider"
-      ],
-      "aliases": {
-        "Package": "OSSTools\\LibreTranslate\\PackageFacade"
-      }
+        "OSSTools\\LibreTranslate\\LibreTranslateServiceProvider"
+      ]
     }
   }
 }
