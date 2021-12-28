@@ -183,7 +183,7 @@ class Client
      */
     protected function getAttributes(string $string): array
     {
-        $matches = array();
+        $matches = [];
         if (preg_match_all('/:(\w+)\b/', $string, $matches)) {
             return $matches[1];
         }
