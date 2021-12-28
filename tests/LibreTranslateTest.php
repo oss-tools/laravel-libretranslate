@@ -81,4 +81,17 @@ class LibreTranslateTest extends OrchestraTestCase
         $this->assertInstanceOf(TranslationDetectionItem::class, $detection2);
         $this->assertSame($detection2->getLanguage(), LanguageCodes::SPANISH);
     }
+
+    public function test_can_translate_text_with_attributes()
+    {
+        $instance = new Client();
+
+        $payload = 'Some text with an :attribute or :two';
+
+        $translation = $instance->translate($payload, LanguageCodes::SPANISH)->first();
+
+        $this->assertSame($translation->getLocale(), LanguageCodes::SPANISH);
+        $this->assertStringContainsString(':attribute', $translation->getText());
+        $this->assertStringContainsString(':two', $translation->getText());
+    }
 }

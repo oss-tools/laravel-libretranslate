@@ -81,10 +81,25 @@ class Client
 
         $requests = [];
 
+        $requestStrings = [];
+        $requestAttributes = [];
         foreach ($keys as $key) {
+            $requestString = $key;
+            $attributes = $this->getAttributes($key);
+            if ($attributes) {
+                foreach ($attributes as $row => $attribute) {
+                    $thisAttribute = '[' . $row .']___' .$attribute;
+                    $requestAttributes[$key][] = $thisAttribute;
+                    $requestString = str_replace(':' . $attribute, '[' . $row .']', $requestString);
+                }
+
+                $requestStrings[$key] = $requestString;
+            } else {
+                $requestStrings[$key] = $key;
+            }
             $requests[$key] = $this->client->postAsync('/translate?apiKey=' . $this->apiKey, [
                 'form_params' => [
-                    'q' => $key,
+                    'q' => $requestStrings[$key],
                     'source' => $source,
                     'target' => $target,
                     'format' => 'text',
@@ -97,6 +112,12 @@ class Client
         $translations = [];
         foreach ($responses as $key => $response) {
             $translatedText = json_decode($response->getBody(), true)['translatedText'];
+            if (isset($requestAttributes[$key])) {
+                foreach ($requestAttributes[$key] as $attribute) {
+                    $splitAttribute = explode('___', $attribute);
+                    $translatedText = str_replace($splitAttribute[0], ':' . $splitAttribute[1], $translatedText);
+                }
+            }
             $translations[$key] = new TranslationItem($key, $translatedText, $target);
         }
 
@@ -154,5 +175,19 @@ class Client
             LanguageCodes::UKRANIAN,
             LanguageCodes::VIETNAMESE,
         ];
+    }
+
+    /**
+     * @param string $string
+     * @return array|mixed
+     */
+    protected function getAttributes(string $string): array
+    {
+        $matches = array();
+        if (preg_match_all('/:(\w+)\b/', $string, $matches)) {
+            return $matches[1];
+        }
+
+        return [];
     }
 }
